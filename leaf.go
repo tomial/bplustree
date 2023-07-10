@@ -68,13 +68,15 @@ func (l *leafNode) insert(key int, value string) (int, bool) {
 	}
 
 	if !l.full() {
-		copy(l.kvs[i+1:], l.kvs[i:l.count])
+		// move all trail elements right
+		copy(l.kvs[i+1:], l.kvs[i:])
 		l.kvs[i].key = key
 		l.kvs[i].value = value
 		l.count++
 		return 0, false
 	}
 
+	// if l is full, split and insert
 	next := l.split()
 
 	if key < next.kvs[0].key {
@@ -83,6 +85,7 @@ func (l *leafNode) insert(key int, value string) (int, bool) {
 		next.insert(key, value)
 	}
 
+	// need to copy leftmost element to parent node
 	return next.kvs[0].key, true
 }
 

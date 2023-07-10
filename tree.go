@@ -39,6 +39,7 @@ func (bt *BTree) Insert(key int, value string) {
 	var midNode node
 	midNode = leaf
 
+	// point old pointer to next
 	p.kcs[oldIndex].child = leaf.next
 	leaf.next.setParent(p)
 
